@@ -60,7 +60,7 @@ setFplot_dict = function(dict){
     if(any(td > 1)){
         qui = which(dict_names %in% names(td)[td > 1])
         name_dup = unique(names(dict)[qui])
-        stop("Argument 'dict' contains duplicated names: ", enumerate_items(name_dup, verb = FALSE))
+        stop("Argument 'dict' contains duplicated names: ", enumerate_items(name_dup))
     }
 
     options("fplot_dict" = dict)
@@ -1833,13 +1833,13 @@ clean_name = function(x){
 
 #' Publication data sample
 #'
-#' This data reports the publications of U.S. institutions in the field of biology between 1985 and 1990.
+#' This data reports the publications of U.S. institutions in the field of economics between 1985 and 1990.
 #'
 #' @usage
-#' data(us_pub_biology)
+#' data(us_pub_econ)
 #'
 #' @format
-#' \code{us_pub_biology} is a data table with 150,066 observations and 6 variables.
+#' \code{us_pub_econ} is a data table with 30,756 observations and 6 variables.
 #'
 #' \itemize{
 #' \item{paper_id: Numeric identifier of the publication.}
@@ -1855,10 +1855,10 @@ clean_name = function(x){
 #' The source is Microsoft Academic Graph (see reference).
 #'
 #' @references
-#' Arnab Sinha, Zhihong Shen, Yang Song, Hao Ma, Darrin Eide, Bo-June (Paul) Hsu, and Kuansan Wang. 2015. An Overview of Microsoft Academic Service (MAS) and Applications. In Proceedings of the 24th International Conference on World Wide Web (WWW ’15 Companion). ACM, New York, NY, USA, 243-246.
+#' Arnab Sinha, Zhihong Shen, Yang Song, Hao Ma, Darrin Eide, Bo-June (Paul) Hsu, and Kuansan Wang. 2015. An Overview of Microsoft Academic Service (MAS) and Applications. In Proceedings of the 24th International Conference on World Wide Web (WWW '15 Companion). ACM, New York, NY, USA, 243-246.
 #'
 #'
 #'
-"us_pub_biology"
+"us_pub_econ"
 
 
