@@ -179,7 +179,7 @@ plot_distr = function(fml, data, moderator, weight, maxFirst, toLog, maxBins, bi
         } else {
             USE_WEIGHT = TRUE
             weight_name = gsub("^.*\\| *", "", deparse(fml_in[[3]]))
-            check_arg(weight, "numericVectorGE0", "The 'weight' must be a numeric vector. REASON")
+            check_arg(weight, "numericVectorGE0NAok", "The 'weight' must be a numeric vector. REASON")
         }
 
         if(length(moderator) == 1){
@@ -197,13 +197,19 @@ plot_distr = function(fml, data, moderator, weight, maxFirst, toLog, maxBins, bi
 
         # We check the vector
         if(!checkVector(x)){
-            if(length(x) == 0){
-                reason = "Currently, the length of fml is 0."
+
+            if(length(class(x)) == 1 && class(x) == "table"){
+                x = as.vector(x)
             } else {
-                reason = paste0("Currently, fml is of class ", enumerate_items(class(x)), ".")
+                if(length(x) == 0){
+                    reason = "Currently, the length of fml is 0."
+                } else {
+                    reason = paste0("Currently, fml is of class ", enumerate_items(class(x)), ".")
+                }
+
+                stop("Wrong argument in fml. It must be either a formula, either a vector. ", reason)
             }
 
-            stop("Wrong argument in fml. It must be either a formula, either a vector. ", reason)
         }
 
         # moderator

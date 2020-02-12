@@ -22,13 +22,9 @@
 #'
 #' @examples
 #'
-#' \donttest{
-#' library(fixest)
-#' data(trade)
-#' setFplot_dict(c(Origin = "Country of Origin", Euros = "Exportations"))
-#' plot_distr(Origin~1|Euros, trade)
-#' setFplot_dict()
-#' }
+#' data(airquality)
+#' setFplot_dict(c(Ozone = "Ozone (ppb)"))
+#' plot_distr(Month~1|Ozone, airquality, weight.fun = mean)
 #'
 setFplot_dict = function(dict){
 
@@ -356,7 +352,7 @@ xaxis_labels = function(at, labels, minLine = -1, max_line = 1, minCex = 0.8, ad
     for(line in unique(myLine)){
         qui = which(myLine == line)
         # the labels
-        axis(1, at = myAt[qui], labels = myLabels[qui], line = line, cex.axis = myCex, lwd = 0)
+        axis(1, at = myAt[qui], labels = myLabels[qui], line = line, cex.axis = myCex, lwd = 0, gap.axis = 0.01)
 
     }
 
@@ -415,6 +411,7 @@ xaxis_biased = function(at, labels, angle, cex, max_line = 1, yadj = 0.5, trunc 
             angle = angle_all[i]
             cex = rep(cex2check, n_angle)[i]
         } else {
+            message("xaxis_biased: Labels could not fit.")
             angle = tail(angle_all, 1)
             cex = tail(cex2check, 1)
         }
@@ -493,9 +490,9 @@ legendFit = function(where = "top", legend, minCex = 0.7, trunc, trunc.method = 
     hauteur_caractere = strheight("W", units = "in", cex = myCex)
 
     if(nlines == 2){
-        res$total_height = (4 + do_adj/2)*hauteur_caractere
+        res$total_height = (4 + do_adj/2 + 0.5)*hauteur_caractere
     } else {
-        res$total_height = (2.5 + do_adj/2)*hauteur_caractere
+        res$total_height = (2.5 + do_adj/2 + 0.5)*hauteur_caractere
     }
 
     # Auto truncation

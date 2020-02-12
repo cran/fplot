@@ -3,6 +3,26 @@
 
 \title{News for \R Package \pkg{fplot}}
 
+\section{Changes in version 0.2.1 (2020-02-12)}{
+
+    \subsection{User visible changes}{
+        \itemize{
+            \item Better adjustment of the legend height.
+        }
+    }
+
+    \subsection{Bug fixes}{
+        \itemize{
+            \item[plot_distr] Bug when the weight contained NAs. Now fixed.
+        }
+    }
+    \subsection{Other}{
+        \itemize{
+            \item Package \code{fixest} is removed from help files and called conditionnaly in the vignette.
+        }
+    }
+}
+
 \section{Changes in version 0.2.0 (2019-11-21)}{
     \subsection{Major improvements}{
         \itemize{

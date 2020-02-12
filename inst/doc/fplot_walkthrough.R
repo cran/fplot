@@ -1,12 +1,23 @@
 ## ----setup, include = FALSE----------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
+  eval = TRUE,
   comment = "#>"
 )
 
+## ---- echo = FALSE-------------------------------------------------------
+# We conditionnaly run the code pieces
+IS_FIXEST = TRUE
+msg = function() NULL
+if(!requireNamespace("fixest", quietly = TRUE)){
+  IS_FIXEST = FALSE
+	message("This vignette uses a data set from the package 'fixest', which is not currently available. Examples relating to this data set are removed.")
+	msg = function() message("Package 'fixest' not available: result not reported.")
+}
+
 ## ---- echo = TRUE--------------------------------------------------------
 library(fplot)
-data(us_pub_econ)
+data(us_pub_econ, package = "fplot")
 
 ## ---- echo=FALSE, results='asis'-----------------------------------------
 tab = head(us_pub_econ)
@@ -39,19 +50,38 @@ plot_distr(journal ~ institution, us_pub_econ, addOther = TRUE)
 plot_distr(journal ~ institution, us_pub_econ, xlab = "Journal")
 
 
-## ---- echo = TRUE, results = "hide"--------------------------------------
-data(trade, package = "fixest")
-head(trade)
+## ---- echo = TRUE, eval = FALSE------------------------------------------
+#  data(trade, package = "fixest")
+#  head(trade)
 
-## ---- echo=FALSE, results='asis'-----------------------------------------
-tab = head(trade)
-knitr::kable(tab)
+## ---- echo = FALSE, results = "asis"-------------------------------------
+if(IS_FIXEST){
+  data(trade, package = "fixest")
+  tab = head(trade)
+  knitr::kable(tab)
+} else {
+  msg()
+}
 
-## ---- fig.width=7--------------------------------------------------------
-plot_distr(trade$Euros)
+## ---- eval = FALSE, echo = TRUE------------------------------------------
+#  plot_distr(trade$Euros)
 
-## ------------------------------------------------------------------------
-plot_distr(Euros~Origin, trade, mod.select = c("DE", "FR"))
+## ---- echo = FALSE, eval = TRUE, fig.width=7-----------------------------
+if(IS_FIXEST){
+  plot_distr(trade$Euros)
+} else {
+  msg()
+}
+
+## ---- eval = FALSE, echo = TRUE------------------------------------------
+#  plot_distr(Euros~Origin, trade, mod.select = c("DE", "FR"))
+
+## ---- echo = FALSE, eval = TRUE, fig.width=7-----------------------------
+if(IS_FIXEST){
+  plot_distr(Euros~Origin, trade, mod.select = c("DE", "FR"))
+} else {
+  msg()
+}
 
 ## ------------------------------------------------------------------------
 plot_distr(iris$Petal.Length)

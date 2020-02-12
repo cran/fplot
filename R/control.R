@@ -334,25 +334,25 @@ check_arg = function(x, type, message, call_depth = 0){
 				
 				first_msg = ifelse(grepl("vector", type), " of values", "")
 				
-				if(grepl(expr <- "ge[[:digit:]]+", type)){
+				if(grepl(expr <- "ge-?[[:digit:]]+", type)){
 					n = myExtract(expr)
 					message = paste0(message, first_msg, " greater than, or equal to, ", n)
 					first_msg = " and"
 				}
 				
-				if(grepl(expr <- "gt[[:digit:]]+", type)){
+				if(grepl(expr <- "gt-?[[:digit:]]+", type)){
 					add_and = TRUE
 					n = myExtract(expr)
 					message = paste0(message, first_msg, " strictly greater than ", n)
 					first_msg = " and"
 				}
 				
-				if(grepl(expr <- "le[[:digit:]]+", type)){
+				if(grepl(expr <- "le-?[[:digit:]]+", type)){
 					n = myExtract(expr)
 					message = paste0(message, first_msg, " lower than, or equal to, ", n)
 				}
 				
-				if(grepl(expr <- "lt[[:digit:]]+", type)){
+				if(grepl(expr <- "lt-?[[:digit:]]+", type)){
 					n = myExtract(expr)
 					message = paste0(message, first_msg, " strictly lower than ", n)
 				}
@@ -431,6 +431,16 @@ check_arg = function(x, type, message, call_depth = 0){
 		}
 	}
 	
+	if(!grepl("naok", type) && anyNA(x)){
+		if(isSingle){
+			stop_now("But it is equal to NA.")
+		} else {
+			stop_now("But it contains NAs.")
+		}
+	} else if(grepl("naok", type)){
+		return(NULL)
+	}
+	
 	if(grepl("character", type) && !is.character(x)){
 		stop_now("But it is not of type character.")
 	}
@@ -444,37 +454,29 @@ check_arg = function(x, type, message, call_depth = 0){
 		stop_now("But it is not numeric.")
 	}
 	
-	if(!grepl("naok", type) && anyNA(x)){
-		if(isSingle){
-			stop_now("But it is equal to NA.")
-		} else {
-			stop_now("But it contains NAs.")
-		}
-	}
-	
 	if(grepl("integer", type) && !all(x %% 1 == 0)){
 		stop_now("But it is not integer (although numeric).")
 	}
 	
 	# Greater than, lower than
 	
-	if(grepl(expr <- "ge[[:digit:]]+", type)){
+	if(grepl(expr <- "ge-?[[:digit:]]+", type)){
 		n = myExtract(expr)
 		if( any(x < n) ) stop_now("But it is lower than ", n, ".")
 	}
 	
-	if(grepl(expr <- "gt[[:digit:]]+", type)){
+	if(grepl(expr <- "gt-?[[:digit:]]+", type)){
 		n = myExtract(expr)
 		if( any(x == n) ) stop_now("But it is equal to ", n, " (while it should be *striclty* greater).")
 		if( any(x < n) ) stop_now("But it is lower than ", n, ".")
 	}
 	
-	if(grepl(expr <- "le[[:digit:]]+", type)){
+	if(grepl(expr <- "le-?[[:digit:]]+", type)){
 		n = myExtract(expr)
 		if( any(x > n) ) stop_now("But it is greater than ", n, ".")
 	}
 	
-	if(grepl(expr <- "lt[[:digit:]]+", type)){
+	if(grepl(expr <- "lt-?[[:digit:]]+", type)){
 		n = myExtract(expr)
 		if( any(x == n) ) stop_now("But it is equal to ", n, " (while it should be *striclty* lower).")
 		if( any(x > n) ) stop_now("But it is greater than ", n, ".")
@@ -492,10 +494,81 @@ deparse_long = function(x){
 	}
 }
 
+stop_depth = function(..., depth = 1){
+	
+	message = paste0(...)
+	call_depth = depth
+	stop_now = function(){
+		# message is a global
+		
+		# The original call
+		my_call = deparse(sys.calls()[[sys.nframe()-(2 + call_depth)]])[1] # call can have svl lines
+		nmax = 40
+		if(nchar(my_call) > nmax) my_call = paste0(substr(my_call, 1, nmax-1), "...")
+		
+		stop("in ", my_call, ":\n", message, call. = FALSE)
+	}
+	
+	stop_now()
+}
 
+# This function is useful when we develop methods (which all have ... args)
+check_dots_args = function(mc, dots_args = c(), suggest_args = c()){
+	# Function to catch the arguments passing in ...
+	# we suggest some principal arguments
+	
+	fun_name = as.character(mc[[1]])
+	
+	args = names(mc$...)
+	args = args[nchar(args) > 0]
+	
+	args_invalid = setdiff(args, dots_args)
+	res = FALSE
+	if(length(args_invalid) > 0){
+		res = TRUE
+		suggest_info = setdiff(suggest_args, names(mc))
+		suggest = ""
+		if(length(suggest_info) == 1){
+			if(length(suggest_args) == 1){
+				suggest = paste0(" (fyi, its main argument is ", suggest_info, ".)")
+			} else {
+				suggest = paste0(" (fyi, another of its main arguments is ", suggest_info, ".)")
+			}
+		} else if(length(suggest_info) >= 2){
+			suggest = paste0(" (fyi, some of its main arguments are ", enumerate_items(suggest_info), ".)")
+		}
+		
+		msg = paste0(enumerate_items(args_invalid, "is"), " not ", ifsingle(args_invalid, "a valid argument", "valid arguments"), " for function ", fun_name, ".", suggest)
+		attr(res, "msg") = msg
+	}
+	
+	res
+}
 
 ####
 #### Control Utilities ####
+####
+
+isVector = function(x){
+	# it seems that when you subselect in data.table
+	# sometimes it does not yield a vector
+	# so i cannot use is.vector to check the consistency
+	
+	if(is.vector(x)){
+		return(TRUE)
+	} else {
+		if(is.null(dim(x)) && !is.list(x)){
+			return(TRUE)
+		}
+	}
+	return(FALSE)
+}
+
+
+
+
+####
+#### Formatting Utilities ####
 ####
 
 enumerate_items = function (x, type, verb = FALSE, addS = FALSE, past = FALSE, or = FALSE, start_verb = FALSE, quote = FALSE){
@@ -525,6 +598,12 @@ enumerate_items = function (x, type, verb = FALSE, addS = FALSE, past = FALSE, o
 	}
 	
 	n = length(x)
+	
+	# Ensuring it's not too long
+	if(n > 7){
+		x = c(x[1:5], paste0(n - 5, " others"))
+		n = length(x)
+	}
 	
 	if(past){
 		if(verb %in% c("no", "is", "has")){
@@ -579,23 +658,15 @@ ifsingle = function(x, yes, no){
 	}
 }
 
-
-
-isVector = function(x){
-	# it seems that when you subselect in data.table
-	# sometimes it does not yield a vector
-	# so i cannot use is.vector to check the consistency
-	
-	if(is.vector(x)){
-		return(TRUE)
-	} else {
-		if(is.null(dim(x)) && !is.list(x)){
-			return(TRUE)
-		}
-	}
-	return(FALSE)
+plural = function(x){
+	# adds s if x > 1
+	ifelse(x > 1, "s", "")
 }
 
+plural_len = function(x){
+	# adds s if length(x) > 1
+	ifelse(length(x) > 1, "s", "")
+}
 
 
 
