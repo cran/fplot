@@ -1,4 +1,5 @@
-<a href="https://cran.r-project.org/web/checks/check_results_fplot.html"><img src="https://cranchecks.info/badges/flavor/release/fplot" alt="CRAN status"></a>
+# fplot: distribution graphs the easy way
+
 <a href="https://cran.r-project.org/package=fplot"><img src="http://www.r-pkg.org/badges/version/fplot" alt="Version"> </a>
 <a href="https://ipub.com/dev-corner/apps/r-package-downloads/"> <img src="https://cranlogs.r-pkg.org/badges/fplot" alt = "Downloads"> </a>
 
@@ -6,7 +7,7 @@
 
 The problem when it comes to distributions is that we often face a variety of data, each requiring a different type of layout: we don't represent the distribution of categorical variables similarly to continuous variables, and regarding the latter heavily skewed data may require a special treatment. The aim of `fplot` is to automatically make choices for the user in order to always display meaningful (and hopefully beautiful!) graphs. 
 
-This brief description shows a gallery of `fplot` possibilities. For a more detailed introduction, please see the [walk-through](https://cran.r-project.org/package=fplot/vignettes/fplot_walkthrough.html).
+This brief description shows a gallery of `fplot` possibilities. For a more detailed introduction, please see the [walk-through](https://lrberge.github.io/fplot/articles/fplot_walkthrough.html).
 
 The data sets used are `us_pub_econ` (from `fplot`) relating to publications in economics from US institutions, `trade` (from package `fixest`) relating to trade value between countries for some products in the European Union, and the `iris` data set (from base `R`).
 
@@ -21,46 +22,46 @@ setFplot_dict(c(Origin = "Exporting Country", Destination = "Importing Country",
 
 The code to run the plots are in the titles of the graphs. You'll notice that the same command line can result in a set of different graphs. 
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/regular_pub.png?raw=true)
+![](man/figures/regular_pub.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/regular_trade.png?raw=true)
+![](man/figures/regular_trade.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/regular_iris.png?raw=true)
+![](man/figures/regular_iris.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/conditional_pub_1.png?raw=true)
+![](man/figures/conditional_pub_1.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/conditional_pub_2.png?raw=true)
+![](man/figures/conditional_pub_2.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/conditional_pub_3_bis.png?raw=true)
+![](man/figures/conditional_pub_3_bis.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/conditional_trade_1.png?raw=true)
+![](man/figures/conditional_trade_1.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/conditional_trade_2.png?raw=true)
+![](man/figures/conditional_trade_2.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/conditional_iris_1.png?raw=true)
+![](man/figures/conditional_iris_1.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/conditional_iris_2.png?raw=true)
+![](man/figures/conditional_iris_2.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/conditional_iris_3.png?raw=true)
+![](man/figures/conditional_iris_3.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/weighted_pub_1.png?raw=true)
+![](man/figures/weighted_pub_1.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/weighted_pub_2.png?raw=true)
+![](man/figures/weighted_pub_2.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/weighted_trade_1.png?raw=true)
+![](man/figures/weighted_trade_1.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/weighted_trade_2.png?raw=true)
+![](man/figures/weighted_trade_2.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/weighted_conditional_trade_1.png?raw=true)
+![](man/figures/weighted_conditional_trade_1.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/weighted_conditional_trade_2.png?raw=true)
+![](man/figures/weighted_conditional_trade_2.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/weighted_stacked_pub.png?raw=true)
+![](man/figures/weighted_stacked_pub.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/weighted_stacked_trade.png?raw=true)
+![](man/figures/weighted_stacked_trade.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/cumul_pub.png?raw=true)
+![](man/figures/cumul_pub.png)
 
-![](https://github.com/lrberge/fplot/blob/master/vignettes/images/cumul_trade.png?raw=true)
+![](man/figures/cumul_trade.png)
 
 
