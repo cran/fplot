@@ -6,7 +6,7 @@
 \title{Graph export with garanteed text size}
 \usage{
 export_graph_start(
-  file,
+  file = NULL,
   pt = 10,
   width = 1,
   height,
@@ -15,16 +15,50 @@ export_graph_start(
   sideways = FALSE,
   res = 300,
   type = NULL,
+  margin = NULL,
+  margin.left = NULL,
+  margin.right = NULL,
+  margin.top = NULL,
+  margin.bottom = NULL,
+  margin.unit = "line",
+  box = NULL,
+  col.bg = NULL,
+  col.default = NULL,
+  yaxis.horiz = NULL,
+  lwd = NULL,
+  outermargin = NULL,
+  outermargin.left = NULL,
+  outermargin.right = NULL,
+  outermargin.top = NULL,
+  outermargin.bottom = NULL,
+  outermargin.unit = "line",
+  square_plot = NULL,
+  nrow = NULL,
+  ncol = NULL,
+  byrow = TRUE,
+  title.size = NULL,
+  title.col = NULL,
+  title.bold = NULL,
+  title.italic = NULL,
+  axis.size = NULL,
+  axis.col = NULL,
+  axis.bold = NULL,
+  axis.italic = NULL,
+  label.size = NULL,
+  label.col = NULL,
+  label.bold = NULL,
+  label.italic = NULL,
   ...
 )
 
 export_graph_end()
 }
 \arguments{
-\item{file}{Character scalar. The name of the file in which to save the graph.
-If the argument type is \code{NULL}, the type of file is deduced from the extension.
+\item{file}{Character scalar or \code{NULL}. The name of the file in which to save the graph.
+If the argument \code{type} is \code{NULL}, the type of file is deduced from the extension.
 If your file extension is different from your file type, you need to use the
-argument \code{type}.}
+argument \code{type}. It \code{file = NULL}, no graph is exported but, if provided,
+the graphical parameters are modified accordingly.}
 
 \item{pt}{The size of the text, in pt, once the figure is inserted in your final document.
 The default is 10. This means that all text appearing in the plot with \code{cex = 1}
@@ -64,6 +98,110 @@ argument \code{height} to its width.}
 \item{type}{Character scalar, default is \code{NULL}. The type of file to be created.
 If \code{NULL}, the default, then the type of file is deduced from the extension.}
 
+\item{margin}{Numeric vector, default is \code{NULL}. Defines the size of the four
+plotting margins (in this order: bottom, left, top, right).
+If of length 1 or 2, the content is recycled to fit 4 elements.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{margin.left}{Numeric scalar, default is \code{NULL}. The size of the left margin.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{margin.right}{Numeric scalar, default is \code{NULL}. The size of the right margin.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{margin.top}{Numeric scalar, default is \code{NULL}. The size of the top margin.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{margin.bottom}{Numeric scalar, default is \code{NULL}. The size of the bottom margin.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{margin.unit}{Character scalar equal to either: i) "line" (default), ii) "inch", iii) "cm".}
+
+\item{box}{Can be equal to \code{NULL} (default), a logical scalar, or a character scalar.
+Defines how to draw the box around the plotting region.
+If a logical, \code{TRUE} means that all borders are drawn, and \code{FALSE} means none.
+If a character scalar, it should contain the following letters: "b", "l", "t" and/or "r",
+which stand for the bottom, left, top and right border.}
+
+\item{col.bg}{An R color, default is \code{NULL}. The background color of the plot.}
+
+\item{col.default}{An R colors, default is \code{NULL}. They represent the default color
+used for plotting (the axes will be drawn with that color and it will be the default
+color when the argument \code{col} is not provided in plotting functions).}
+
+\item{yaxis.horiz}{Logical, default is \code{NULL}. Whether to display the y-axis labels
+horizontally.}
+
+\item{lwd}{Numeric scalar, default is \code{NULL}. The default width of the lines.}
+
+\item{outermargin}{Numeric vector, default is \code{NULL}. Defines the size of the four
+outer margins. If of length 1 or 2, the content is recycled to fit 4 elements.
+By default the unit is the "line" but you can change it with the argument
+\code{outermargin.unit}.}
+
+\item{outermargin.left}{Numeric scalar, default is \code{NULL}. The size of the left outer margin.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{outermargin.right}{Numeric scalar, default is \code{NULL}. The size of the right outer margin.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{outermargin.top}{Numeric scalar, default is \code{NULL}. The size of the top outer margin.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{outermargin.bottom}{Numeric scalar, default is \code{NULL}. The size of the bottom outer margin.
+By default the unit is the "line" but you can change it with the argument
+\code{margin.unit}.}
+
+\item{outermargin.unit}{Character scalar equal to either: i) "line" (default),
+ii) "inch", iii) "cm".}
+
+\item{square_plot}{Logical, default is \code{NULL}. Whether the plotting region should fit
+a square. If \code{FALSE} the plotting region is maximal.}
+
+\item{nrow}{Integer scalar, default is \code{NULL}. To display multiple graphs, the number of
+rows of the graphical matrix.}
+
+\item{ncol}{Integer scalar, default is \code{NULL}. To display multiple graphs, the number of
+columns of the graphical matrix.}
+
+\item{byrow}{Logical, default is TRUE. When plotting multiple graphs on a graphical matrix,
+whether to plot the graphs by row.}
+
+\item{title.size}{Numeric scalar, default is \code{NULL}. Values greater than 1 increase
+the size of the plot titles, values lower than 1 reduce them.}
+
+\item{title.col}{An R color, default is \code{NULL}. The color for the graph titles.}
+
+\item{title.bold}{Logical, default is \code{NULL}. Whether to display the title in bold font.}
+
+\item{title.italic}{Logical, default is \code{NULL}. Whether to display the title in italic font.}
+
+\item{axis.size}{Numeric scalar, default is \code{NULL}. Values greater than 1 increase
+the size of the text in the plot axes, values lower than 1 reduce them.}
+
+\item{axis.col}{An R color, default is \code{NULL}. The color for the text in the graph axes.}
+
+\item{axis.bold}{Logical, default is \code{NULL}. Whether to display the axis's text in bold font.}
+
+\item{axis.italic}{Logical, default is \code{NULL}. Whether to display the axis's text in italic font.}
+
+\item{label.size}{Numeric scalar, default is \code{NULL}. Values greater than 1 increase
+the size of the plot labels, values lower than 1 reduce them.}
+
+\item{label.col}{An R color, default is \code{NULL}. The color for the graph labels.}
+
+\item{label.bold}{Logical, default is \code{NULL}. Whether to display the labels in bold font.}
+
+\item{label.italic}{Logical, default is \code{NULL}. Whether to display the labels in italic font.}
+
 \item{...}{Other arguments to be passed to \code{\link[grDevices:png]{bmp}},
 \code{\link[grDevices]{png}}, \code{\link[grDevices:png]{jpeg}}, or
 \code{\link[grDevices:png]{tiff}}. For example: \code{antialias}, \code{bg}, etc.}
@@ -77,10 +215,21 @@ file linked to the R graphics engine, in which subsequent plots are saved.
 This function facilitates graph exportation by taking into account the final
 destination of the graph (typically a document) and allowing the user to use
 point size, an intuitive unit
-in written documents, as the graph scaler. Once located in the final document, the text of the graph
+in written documents, as the graph scaler. Once located in the final document,
+the text of the graph
 at the default size will be at the defined point size.
 }
 \details{
+When the function \code{export_graph_end()} is called, the resulting exported graph
+is displayed in the Viewer. The viewer function is found with
+\code{getOption("viewer")} and should work on RStudio and VSCode (with the R extension).
+
+When the graphical parameters are modified in \code{export_graph_start}, they are reset
+once a call to \code{export_graph_end}, or new call to \code{export_graph_start}, is run.
+
+When the argument \code{file = NULL} (default), the function \code{export_graph_start} can be
+used in lieu of \code{par}, possibly facilitating the reset of the graphical parameters.
+
 To export a ggplot2 graph, remember that you need to \strong{print} it!
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{library(ggplot2)
@@ -102,10 +251,6 @@ export_graph_start("test.pdf")
 print(my_graph)
 export_graph_end()
 }\if{html}{\out{</div>}}
-
-When the function \code{export_graph_end()} is called, the resulting exported graph
-is displayed in the Viewer. The viewer function is found with
-\code{getOption("viewer")} and should work on RStudio and VSCode (with the R extension).
 }
 \section{Functions}{
 \itemize{
@@ -137,6 +282,15 @@ text(1, 1, "This text will be displayed in 8pt.")
 # the line below closes the connection and displays the 
 # graph in the viewer pane if appropritate
 export_graph_end()
+
+# We create a 'normal' graph where we change a few graphical parameters
+export_graph_start(col.default = "deepskyblue1", title.col = "indianred1", 
+                   title.italic = TRUE, title.size = 2)
+with(iris, plot(Sepal.Length, Petal.Length, pch = 18, cex = 2))
+title("Iris data set")
+# we reset the graphical parameters:
+export_graph_end()
+
 
 }
 \seealso{

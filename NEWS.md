@@ -1,4 +1,32 @@
 
+# fplot 1.2.0
+
+## New features
+
+- `export_graph` now creates the folder receiving the exported file if it does not exist
+
+- `export_graph` now accepts the arguments: `margin`, `margin.left`, `margin.right`, 
+`margin.top`, `margin.bottom`, `margin.unit`, `box`, `col.bg`, `col.default`,
+`ylab.horiz`, `lwd`, `outermargin`, `outermargin.left`, `outermargin.right`,
+`outermargin.top`, `outermargin.bottom`, `outermargin.unit`, `square_plot`,
+`nrow`, `ncol`, `byrow`, `title.size`, `title.col`, `title.bold`, `title.italic`, 
+`axis.size`, `axis.col`, `axis.bold`, `axis.italic`, `label.size`, 
+`label.col`, `label.bold`, `label.italic`.
+
+  These arguments modify the graphical parameters before resetting them when `export_graph_end` is called (or a new instance of `export_graph_start`).
+
+## Bug fixes
+
+- fix bug in `plot_distr` when it was applied to continuous data under certain conditions.
+
+- fix bug partial matching of the `label` argument in the `text` function
+
+## Other changes
+
+- remove `data.table` in depends
+
+- the dictionary of `fplot` becomes common with the dictionary of the `fixest` package
+
 # fplot 1.1.0
 
 ## New functions
